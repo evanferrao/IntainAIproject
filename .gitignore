@@ -1,0 +1,55 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing & Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Large datasets (raw)
+data/external/lending_club/*.csv
+data/external/lending_club/*.zip
+data/external/lending_club/*.gz
+!data/external/lending_club/.gitkeep
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Artifacts caches
+artifacts/logs/*.log

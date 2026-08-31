@@ -1,0 +1,916 @@
+{
+  "delinquency": {
+    "model_name": "Improved_Delinquency_LightGBM",
+    "n_samples": 2025,
+    "positive_class_ratio": 0.0765,
+    "roc_auc": 0.911,
+    "pr_auc": 0.6807,
+    "f1": 0.6541,
+    "precision": 0.7838,
+    "recall": 0.5613,
+    "recall_at_80_precision": 0.5484,
+    "brier_score": 0.0385,
+    "expected_calibration_error": 0.0994,
+    "confusion_matrix": [
+      [
+        1846,
+        24
+      ],
+      [
+        68,
+        87
+      ]
+    ],
+    "decision_threshold": 0.5
+  },
+  "delinquency_baseline": {
+    "model_name": "Baseline_Delinquency_LogReg",
+    "n_samples": 2025,
+    "positive_class_ratio": 0.0765,
+    "roc_auc": 0.7746,
+    "pr_auc": 0.3689,
+    "f1": 0.2813,
+    "precision": 0.1844,
+    "recall": 0.5935,
+    "recall_at_80_precision": 0.0258,
+    "brier_score": 0.1637,
+    "expected_calibration_error": 0.35,
+    "confusion_matrix": [
+      [
+        1463,
+        407
+      ],
+      [
+        63,
+        92
+      ]
+    ],
+    "decision_threshold": 0.5
+  },
+  "default": {
+    "model_name": "Improved_Default_LightGBM",
+    "n_samples": 2025,
+    "positive_class_ratio": 0.0227,
+    "roc_auc": 0.9931,
+    "pr_auc": 0.7445,
+    "f1": 0.7083,
+    "precision": 0.68,
+    "recall": 0.7391,
+    "recall_at_80_precision": 0.2174,
+    "brier_score": 0.01,
+    "expected_calibration_error": 0.153,
+    "confusion_matrix": [
+      [
+        1963,
+        16
+      ],
+      [
+        12,
+        34
+      ]
+    ],
+    "decision_threshold": 0.5
+  },
+  "default_baseline": {
+    "model_name": "Baseline_Default_LogReg",
+    "n_samples": 2025,
+    "positive_class_ratio": 0.0227,
+    "roc_auc": 0.9253,
+    "pr_auc": 0.3226,
+    "f1": 0.2456,
+    "precision": 0.1464,
+    "recall": 0.7609,
+    "recall_at_80_precision": 0.0435,
+    "brier_score": 0.0908,
+    "expected_calibration_error": 0.4029,
+    "confusion_matrix": [
+      [
+        1775,
+        204
+      ],
+      [
+        11,
+        35
+      ]
+    ],
+    "decision_threshold": 0.5
+  },
+  "prepayment": {
+    "model_name": "Improved_Prepayment_LightGBM",
+    "n_samples": 2025,
+    "positive_class_ratio": 0.036,
+    "roc_auc": 0.9235,
+    "pr_auc": 0.4887,
+    "f1": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "recall_at_80_precision": 0.1644,
+    "brier_score": 0.0309,
+    "expected_calibration_error": 0.3328,
+    "confusion_matrix": [
+      [
+        1952,
+        0
+      ],
+      [
+        73,
+        0
+      ]
+    ],
+    "decision_threshold": 0.5
+  },
+  "prepayment_baseline": {
+    "model_name": "Baseline_Prepayment_LogReg",
+    "n_samples": 2025,
+    "positive_class_ratio": 0.036,
+    "roc_auc": 0.5846,
+    "pr_auc": 0.0551,
+    "f1": 0.0373,
+    "precision": 0.0341,
+    "recall": 0.0411,
+    "recall_at_80_precision": 0.0,
+    "brier_score": 0.1395,
+    "expected_calibration_error": 0.2835,
+    "confusion_matrix": [
+      [
+        1867,
+        85
+      ],
+      [
+        70,
+        3
+      ]
+    ],
+    "decision_threshold": 0.5
+  },
+  "next_state": {
+    "model_name": "Improved_NextState_LightGBM",
+    "n_samples": 2025,
+    "macro_f1": 0.7046,
+    "weighted_f1": 0.9012,
+    "macro_precision": 0.6608,
+    "macro_recall": 0.7787,
+    "class_breakdown": {
+      "CURRENT": {
+        "f1": 0.9413,
+        "precision": 0.9653,
+        "recall": 0.9186
+      },
+      "DELINQUENT_30": {
+        "f1": 0.2532,
+        "precision": 0.1923,
+        "recall": 0.3704
+      },
+      "DELINQUENT_60": {
+        "f1": 0.7312,
+        "precision": 0.5763,
+        "recall": 1.0
+      },
+      "DELINQUENT_90": {
+        "f1": 0.8506,
+        "precision": 0.8409,
+        "recall": 0.8605
+      },
+      "DEFAULT": {
+        "f1": 0.8906,
+        "precision": 0.8261,
+        "recall": 0.9661
+      },
+      "PREPAID": {
+        "f1": 0.5605,
+        "precision": 0.5641,
+        "recall": 0.557
+      }
+    },
+    "confusion_matrix": [
+      [
+        1613,
+        83,
+        22,
+        5,
+        0,
+        33,
+        0
+      ],
+      [
+        24,
+        20,
+        3,
+        0,
+        6,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        34,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        37,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        57,
+        0,
+        0
+      ],
+      [
+        34,
+        1,
+        0,
+        0,
+        0,
+        44,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "class_names": [
+      "CURRENT",
+      "DELINQUENT_30",
+      "DELINQUENT_60",
+      "DELINQUENT_90",
+      "DEFAULT",
+      "PREPAID",
+      "CLOSED"
+    ]
+  },
+  "next_state_baseline": {
+    "model_name": "Baseline_NextState_LogReg",
+    "n_samples": 2025,
+    "macro_f1": 0.3558,
+    "weighted_f1": 0.3511,
+    "macro_precision": 0.4395,
+    "macro_recall": 0.5036,
+    "class_breakdown": {
+      "CURRENT": {
+        "f1": 0.3536,
+        "precision": 0.9549,
+        "recall": 0.217
+      },
+      "DELINQUENT_30": {
+        "f1": 0.0831,
+        "precision": 0.0495,
+        "recall": 0.2593
+      },
+      "DELINQUENT_60": {
+        "f1": 0.3562,
+        "precision": 0.3333,
+        "recall": 0.3824
+      },
+      "DELINQUENT_90": {
+        "f1": 0.4857,
+        "precision": 0.6296,
+        "recall": 0.3953
+      },
+      "DEFAULT": {
+        "f1": 0.7582,
+        "precision": 0.617,
+        "recall": 0.9831
+      },
+      "PREPAID": {
+        "f1": 0.0983,
+        "precision": 0.0524,
+        "recall": 0.7848
+      }
+    },
+    "confusion_matrix": [
+      [
+        381,
+        261,
+        20,
+        3,
+        2,
+        1089,
+        0
+      ],
+      [
+        7,
+        14,
+        6,
+        0,
+        6,
+        21,
+        0
+      ],
+      [
+        1,
+        1,
+        13,
+        6,
+        2,
+        11,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        17,
+        26,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        58,
+        0,
+        0
+      ],
+      [
+        10,
+        7,
+        0,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "class_names": [
+      "CURRENT",
+      "DELINQUENT_30",
+      "DELINQUENT_60",
+      "DELINQUENT_90",
+      "DEFAULT",
+      "PREPAID",
+      "CLOSED"
+    ]
+  },
+  "transition_model": {
+    "states": [
+      "CURRENT",
+      "DELINQUENT_30",
+      "DELINQUENT_60",
+      "DELINQUENT_90",
+      "DEFAULT",
+      "PREPAID",
+      "CLOSED"
+    ],
+    "terminal_states": [
+      "DEFAULT",
+      "PREPAID",
+      "CLOSED"
+    ],
+    "global_matrix": {
+      "CURRENT": {
+        "CURRENT": 0.9352,
+        "DELINQUENT_30": 0.3131,
+        "DELINQUENT_60": 0.1304,
+        "DELINQUENT_90": 0.0,
+        "DEFAULT": 0.0,
+        "PREPAID": 0.0,
+        "CLOSED": 0.0
+      },
+      "DELINQUENT_30": {
+        "CURRENT": 0.0497,
+        "DELINQUENT_30": 0.0908,
+        "DELINQUENT_60": 0.0,
+        "DELINQUENT_90": 0.0963,
+        "DEFAULT": 0.0,
+        "PREPAID": 0.0,
+        "CLOSED": 0.0
+      },
+      "DELINQUENT_60": {
+        "CURRENT": 0.0,
+        "DELINQUENT_30": 0.5961,
+        "DELINQUENT_60": 0.0456,
+        "DELINQUENT_90": 0.0,
+        "DEFAULT": 0.0,
+        "PREPAID": 0.0,
+        "CLOSED": 0.0
+      },
+      "DELINQUENT_90": {
+        "CURRENT": 0.0,
+        "DELINQUENT_30": 0.0,
+        "DELINQUENT_60": 0.824,
+        "DELINQUENT_90": 0.1638,
+        "DEFAULT": 0.0,
+        "PREPAID": 0.0,
+        "CLOSED": 0.0
+      },
+      "DEFAULT": {
+        "CURRENT": 0.0,
+        "DELINQUENT_30": 0.0,
+        "DELINQUENT_60": 0.0,
+        "DELINQUENT_90": 0.7399,
+        "DEFAULT": 1.0,
+        "PREPAID": 0.0,
+        "CLOSED": 0.0
+      },
+      "PREPAID": {
+        "CURRENT": 0.0151,
+        "DELINQUENT_30": 0.0,
+        "DELINQUENT_60": 0.0,
+        "DELINQUENT_90": 0.0,
+        "DEFAULT": 0.0,
+        "PREPAID": 1.0,
+        "CLOSED": 0.0
+      },
+      "CLOSED": {
+        "CURRENT": 0.0,
+        "DELINQUENT_30": 0.0,
+        "DELINQUENT_60": 0.0,
+        "DELINQUENT_90": 0.0,
+        "DEFAULT": 0.0,
+        "PREPAID": 0.0,
+        "CLOSED": 1.0
+      }
+    },
+    "segmented_matrices": {
+      "credit_score_band": {
+        "Near Prime": {
+          "CURRENT": {
+            "CURRENT": 0.9377,
+            "DELINQUENT_30": 0.3266,
+            "DELINQUENT_60": 0.1464,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_30": {
+            "CURRENT": 0.0471,
+            "DELINQUENT_30": 0.0907,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0945,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_60": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.5827,
+            "DELINQUENT_60": 0.0334,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_90": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.8202,
+            "DELINQUENT_90": 0.1561,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DEFAULT": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.7494,
+            "DEFAULT": 1.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "PREPAID": {
+            "CURRENT": 0.0152,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 1.0,
+            "CLOSED": 0.0
+          },
+          "CLOSED": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 1.0
+          }
+        },
+        "Prime": {
+          "CURRENT": {
+            "CURRENT": 0.9647,
+            "DELINQUENT_30": 0.5628,
+            "DELINQUENT_60": 0.2488,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_30": {
+            "CURRENT": 0.0187,
+            "DELINQUENT_30": 0.1184,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0795,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_60": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.3188,
+            "DELINQUENT_60": 0.1343,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_90": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.6169,
+            "DELINQUENT_90": 0.1921,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DEFAULT": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.7285,
+            "DEFAULT": 1.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "PREPAID": {
+            "CURRENT": 0.0166,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 1.0,
+            "CLOSED": 0.0
+          },
+          "CLOSED": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 1.0
+          }
+        },
+        "Subprime": {
+          "CURRENT": {
+            "CURRENT": 0.8782,
+            "DELINQUENT_30": 0.2222,
+            "DELINQUENT_60": 0.0853,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_30": {
+            "CURRENT": 0.1103,
+            "DELINQUENT_30": 0.085,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.1008,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_60": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.6928,
+            "DELINQUENT_60": 0.059,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_90": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.8558,
+            "DELINQUENT_90": 0.1754,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DEFAULT": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.7238,
+            "DEFAULT": 1.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "PREPAID": {
+            "CURRENT": 0.0115,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 1.0,
+            "CLOSED": 0.0
+          },
+          "CLOSED": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 1.0
+          }
+        },
+        "Super Prime": {
+          "CURRENT": {
+            "CURRENT": 0.9611,
+            "DELINQUENT_30": 0.8571,
+            "DELINQUENT_60": 1.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_30": {
+            "CURRENT": 0.0124,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_60": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.1429,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_90": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 1.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DEFAULT": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 1.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "PREPAID": {
+            "CURRENT": 0.0265,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 1.0,
+            "CLOSED": 0.0
+          },
+          "CLOSED": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 1.0
+          }
+        }
+      },
+      "dti_band": {
+        "20-35%": {
+          "CURRENT": {
+            "CURRENT": 0.9289,
+            "DELINQUENT_30": 0.3126,
+            "DELINQUENT_60": 0.1381,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_30": {
+            "CURRENT": 0.0562,
+            "DELINQUENT_30": 0.0862,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0941,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_60": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.6012,
+            "DELINQUENT_60": 0.047,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_90": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.8149,
+            "DELINQUENT_90": 0.1727,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DEFAULT": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.7332,
+            "DEFAULT": 1.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "PREPAID": {
+            "CURRENT": 0.0149,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 1.0,
+            "CLOSED": 0.0
+          },
+          "CLOSED": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 1.0
+          }
+        },
+        "35-50%": {
+          "CURRENT": {
+            "CURRENT": 0.9255,
+            "DELINQUENT_30": 0.257,
+            "DELINQUENT_60": 0.0877,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_30": {
+            "CURRENT": 0.0578,
+            "DELINQUENT_30": 0.0803,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0941,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_60": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.6627,
+            "DELINQUENT_60": 0.0468,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_90": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.8655,
+            "DELINQUENT_90": 0.1412,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DEFAULT": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.7647,
+            "DEFAULT": 1.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "PREPAID": {
+            "CURRENT": 0.0166,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 1.0,
+            "CLOSED": 0.0
+          },
+          "CLOSED": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 1.0
+          }
+        },
+        "<20%": {
+          "CURRENT": {
+            "CURRENT": 0.9374,
+            "DELINQUENT_30": 0.3154,
+            "DELINQUENT_60": 0.1296,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_30": {
+            "CURRENT": 0.0476,
+            "DELINQUENT_30": 0.0928,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0972,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_60": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.5917,
+            "DELINQUENT_60": 0.045,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DELINQUENT_90": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.8253,
+            "DELINQUENT_90": 0.1617,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "DEFAULT": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.7411,
+            "DEFAULT": 1.0,
+            "PREPAID": 0.0,
+            "CLOSED": 0.0
+          },
+          "PREPAID": {
+            "CURRENT": 0.015,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 1.0,
+            "CLOSED": 0.0
+          },
+          "CLOSED": {
+            "CURRENT": 0.0,
+            "DELINQUENT_30": 0.0,
+            "DELINQUENT_60": 0.0,
+            "DELINQUENT_90": 0.0,
+            "DEFAULT": 0.0,
+            "PREPAID": 0.0,
+            "CLOSED": 1.0
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "total_features_evaluated": 13,
+  "high_drift_features_count": 5,
+  "high_drift_features": [
+    "month_index",
+    "loan_age_months",
+    "remaining_term_months",
+    "current_balance",
+    "next_12m_default_flag"
+  ],
+  "overall_drift_status": "ALERT",
+  "feature_metrics": {
+    "month_index": {
+      "type": "numeric",
+      "psi": 7.1581,
+      "ks_statistic": 0.8518,
+      "ks_p_value": 0.0,
+      "drift_status": "SIGNIFICANT_DRIFT",
+      "train_mean": 9.402,
+      "test_mean": 21.2405
+    },
+    "loan_age_months": {
+      "type": "numeric",
+      "psi": 7.1581,
+      "ks_statistic": 0.8518,
+      "ks_p_value": 0.0,
+      "drift_status": "SIGNIFICANT_DRIFT",
+      "train_mean": 9.402,
+      "test_mean": 21.2405
+    },
+    "remaining_term_months": {
+      "type": "numeric",
+      "psi": 6.3255,
+      "ks_statistic": 0.6082,
+      "ks_p_value": 0.0,
+      "drift_status": "SIGNIFICANT_DRIFT",
+      "train_mean": 33.2214,
+      "test_mean": 21.5862
+    },
+    "current_balance": {
+      "type": "numeric",
+      "psi": 0.4021,
+      "ks_statistic": 0.256,
+      "ks_p_value": 0.0,
+      "drift_status": "SIGNIFICANT_DRIFT",
+      "train_mean": 13110.0732,
+      "test_mean": 9134.6762
+    },
+    "current_status": {
+      "type": "categorical",
+      "total_variation_distance": 0.0444,
+      "drift_status": "STABLE",
+      "train_top_cat": "CURRENT",
+      "test_top_cat": "CURRENT"
+    },
+    "days_past_due": {
+      "type": "numeric",
+      "psi": 0.0199,
+      "ks_statistic": 0.0444,
+      "ks_p_value": 0.00073,
+      "drift_status": "STABLE",
+      "train_mean": 8.8367,
+      "test_mean": 6.3111
+    },
+    "modification_flag": {
+      "type": "numeric",
+      "psi": 0.0,
+      "ks_statistic": 0.0078,
+      "ks_p_value": 0.999644,
+      "drift_status": "STABLE",
+      "train_mean": 0.0174,
+      "test_mean": 0.0252
+    },
+    "prepayment_flag": {
+      "type": "numeric",
+      "psi": 0.0,
+      "ks_statistic": 0.0083,
+      "ks_p_value": 0.999,
+      "drift_status": "STABLE",
+      "train_mean": 0.0134,
+      "test_mean": 0.0217
+    },
+    "default_flag": {
+      "type": "numeric",
+      "psi": 0.0,
+      "ks_statistic": 0.0046,
+      "ks_p_value": 1.0,
+      "drift_status": "STABLE",
+      "train_mean": 0.0224,
+      "test_mean": 0.0178
+    },
+    "next_state": {
+      "type": "categorical",
+      "total_variation_distance": 0.064,
+      "drift_status": "STABLE",
+      "train_top_cat": "CURRENT",
+      "test_top_cat": "CURRENT"
+    },
+    "next_3m_delinquency_flag": {
+      "type": "numeric",
+      "psi": 0.1618,
+      "ks_statistic": 0.1366,
+      "ks_p_value": 0.0,
+      "drift_status": "MODERATE_DRIFT",
+      "train_mean": 0.2132,
+      "test_mean": 0.0765
+    },
+    "next_12m_default_flag": {
+      "type": "numeric",
+      "psi": 0.5201,
+      "ks_statistic": 0.2048,
+      "ks_p_value": 0.0,
+      "drift_status": "SIGNIFICANT_DRIFT",
+      "train_mean": 0.2275,
+      "test_mean": 0.0227
+    },
+    "next_12m_prepayment_flag": {
+      "type": "numeric",
+      "psi": 0.0905,
+      "ks_statistic": 0.075,
+      "ks_p_value": 0.0,
+      "drift_status": "STABLE",
+      "train_mean": 0.1111,
+      "test_mean": 0.036
+    }
+  }
+}

@@ -1,0 +1,4 @@
+scenario_id,scenario_name,unemployment_shock_bps,interest_rate_shift_bps,hpi_shift_pct,credit_score_shift,prepayment_multiplier,default_multiplier,description
+1,BASE,0,0,2.0,0,1.00,1.00,Prevailing macroeconomic conditions baseline
+2,ADVERSE_CREDIT,300,100,-10.0,-40,0.45,2.40,Severe stagflationary recession with surging credit loss and muted prepayments
+3,HIGH_PREPAYMENT,-50,-150,5.0,10,1.85,0.75,Monetary easing interest rate drop driving massive refinancing waves

@@ -1,0 +1,102 @@
+{
+  "version": "1.0.0",
+  "description": "Deterministic business and data integrity validation rules for Loan Performance Intelligence Engine",
+  "rules": [
+    {
+      "rule_id": "VR-001",
+      "name": "Positive Original Balance",
+      "field": "original_balance",
+      "severity": "CRITICAL",
+      "condition": "original_balance > 0 and original_balance <= 200000",
+      "description": "Original loan balance must be positive and within reasonable institutional lending limits ($0 - $200k)."
+    },
+    {
+      "rule_id": "VR-002",
+      "name": "Valid Current Balance",
+      "field": "current_balance",
+      "severity": "HIGH",
+      "condition": "current_balance >= 0 and current_balance <= original_balance * 1.05",
+      "description": "Current balance must be non-negative and cannot exceed the original principal balance (allowing up to 5% capitalized fees)."
+    },
+    {
+      "rule_id": "VR-003",
+      "name": "Valid Interest Rate",
+      "field": "interest_rate",
+      "severity": "CRITICAL",
+      "condition": "interest_rate >= 0.01 and interest_rate <= 0.40",
+      "description": "Annualized interest rate must fall within 1.0% and 40.0%."
+    },
+    {
+      "rule_id": "VR-004",
+      "name": "Standard Credit Score Range",
+      "field": "credit_score",
+      "severity": "HIGH",
+      "condition": "credit_score >= 300 and credit_score <= 850",
+      "description": "FICO credit score must be within standard US bureau bounds (300 to 850)."
+    },
+    {
+      "rule_id": "VR-005",
+      "name": "Reasonable DTI Ratio",
+      "field": "dti",
+      "severity": "HIGH",
+      "condition": "dti >= 0.0 and dti <= 1.00",
+      "description": "Back-end Debt-to-Income ratio must be between 0.0% and 100.0%."
+    },
+    {
+      "rule_id": "VR-006",
+      "name": "Positive Annual Income",
+      "field": "annual_income",
+      "severity": "MEDIUM",
+      "condition": "annual_income > 1000",
+      "description": "Borrower self-reported annual income must be greater than $1,000."
+    },
+    {
+      "rule_id": "VR-007",
+      "name": "Valid Loan Term",
+      "field": "original_term",
+      "severity": "HIGH",
+      "condition": "original_term in [12, 24, 36, 48, 60, 72, 84, 120, 180, 240, 360]",
+      "description": "Loan term must match standard contractual amortizations."
+    },
+    {
+      "rule_id": "VR-008",
+      "name": "Non-Negative Days Past Due",
+      "field": "days_past_due",
+      "severity": "HIGH",
+      "condition": "days_past_due >= 0 and days_past_due <= 720",
+      "description": "Days past due counter cannot be negative or absurdly high without write-off."
+    },
+    {
+      "rule_id": "VR-009",
+      "name": "Temporal Monotonicity & Reporting Month",
+      "field": "reporting_month",
+      "severity": "CRITICAL",
+      "condition": "reporting_month >= origination_month",
+      "description": "Reporting month must be equal to or chronologically after the origination month."
+    },
+    {
+      "rule_id": "VR-010",
+      "name": "Terminal State Invariance",
+      "field": "current_status",
+      "severity": "CRITICAL",
+      "condition": "not (previous_state in ['DEFAULT', 'PREPAID', 'CLOSED'] and current_status in ['CURRENT', 'DELINQUENT_30', 'DELINQUENT_60', 'DELINQUENT_90'])",
+      "description": "Terminal states (DEFAULT, PREPAID, CLOSED) cannot transition back into active performing or delinquent states."
+    },
+    {
+      "rule_id": "VR-011",
+      "name": "Document Verification Completeness",
+      "field": "document_status",
+      "severity": "MEDIUM",
+      "condition": "document_status in ['VERIFIED', 'SOURCE_VERIFIED', 'UNVERIFIED']",
+      "description": "Document verification status must match sanctioned audit categories."
+    },
+    {
+      "rule_id": "VR-012",
+      "name": "Valid US State Code",
+      "field": "state",
+      "severity": "LOW",
+      "condition": "len(state) == 2 and state.isalpha()",
+      "description": "Geographic location must be a valid 2-letter postal abbreviation."
+    }
+  ]
+}

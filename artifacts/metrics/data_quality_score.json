@@ -1,0 +1,12 @@
+{
+  "batch_quality_score": 99.89,
+  "median_quality_score": 100.0,
+  "p10_quality_score": 100.0,
+  "p90_quality_score": 100.0,
+  "quality_status": "EXCELLENT",
+  "grade_breakdown_pct": {
+    "EXCELLENT": 100.0
+  },
+  "records_evaluated": 25000,
+  "unfit_records_count": 0
+}

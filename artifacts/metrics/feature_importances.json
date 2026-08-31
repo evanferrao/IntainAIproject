@@ -1,0 +1,187 @@
+[
+  {
+    "feature": "interest_rate",
+    "importance": 447,
+    "importance_pct": 9.93
+  },
+  {
+    "feature": "credit_score",
+    "importance": 431,
+    "importance_pct": 9.58
+  },
+  {
+    "feature": "revolving_utilization",
+    "importance": 370,
+    "importance_pct": 8.22
+  },
+  {
+    "feature": "month_index",
+    "importance": 349,
+    "importance_pct": 7.76
+  },
+  {
+    "feature": "annual_income",
+    "importance": 338,
+    "importance_pct": 7.51
+  },
+  {
+    "feature": "total_accounts",
+    "importance": 306,
+    "importance_pct": 6.8
+  },
+  {
+    "feature": "installment_to_income",
+    "importance": 284,
+    "importance_pct": 6.31
+  },
+  {
+    "feature": "dti",
+    "importance": 263,
+    "importance_pct": 5.84
+  },
+  {
+    "feature": "installment",
+    "importance": 257,
+    "importance_pct": 5.71
+  },
+  {
+    "feature": "credit_burden_index",
+    "importance": 227,
+    "importance_pct": 5.04
+  },
+  {
+    "feature": "balance_ratio",
+    "importance": 196,
+    "importance_pct": 4.36
+  },
+  {
+    "feature": "state_encoded",
+    "importance": 166,
+    "importance_pct": 3.69
+  },
+  {
+    "feature": "days_past_due",
+    "importance": 159,
+    "importance_pct": 3.53
+  },
+  {
+    "feature": "current_balance",
+    "importance": 109,
+    "importance_pct": 2.42
+  },
+  {
+    "feature": "inquiries_6m",
+    "importance": 106,
+    "importance_pct": 2.36
+  },
+  {
+    "feature": "employment_length",
+    "importance": 93,
+    "importance_pct": 2.07
+  },
+  {
+    "feature": "loan_purpose_encoded",
+    "importance": 79,
+    "importance_pct": 1.76
+  },
+  {
+    "feature": "rep_year",
+    "importance": 68,
+    "importance_pct": 1.51
+  },
+  {
+    "feature": "delinquencies_2yrs",
+    "importance": 51,
+    "importance_pct": 1.13
+  },
+  {
+    "feature": "home_ownership_encoded",
+    "importance": 45,
+    "importance_pct": 1.0
+  },
+  {
+    "feature": "document_status_encoded",
+    "importance": 43,
+    "importance_pct": 0.96
+  },
+  {
+    "feature": "servicer_name_encoded",
+    "importance": 40,
+    "importance_pct": 0.89
+  },
+  {
+    "feature": "original_balance",
+    "importance": 33,
+    "importance_pct": 0.73
+  },
+  {
+    "feature": "remaining_term_months",
+    "importance": 32,
+    "importance_pct": 0.71
+  },
+  {
+    "feature": "term_progress_ratio",
+    "importance": 6,
+    "importance_pct": 0.13
+  },
+  {
+    "feature": "credit_score_band_encoded",
+    "importance": 2,
+    "importance_pct": 0.04
+  },
+  {
+    "feature": "loan_age_months",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "funded_balance",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "original_term",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "rep_month_num",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "modification_flag",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "seasonality_sin",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "seasonality_cos",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "interest_rate_spread",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "rep_quarter",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "dti_band_encoded",
+    "importance": 0,
+    "importance_pct": 0.0
+  },
+  {
+    "feature": "current_status_code",
+    "importance": 0,
+    "importance_pct": 0.0
+  }
+]
