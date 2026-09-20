@@ -27,22 +27,22 @@
     "model_name": "Baseline_Delinquency_LogReg",
     "n_samples": 2025,
     "positive_class_ratio": 0.0765,
-    "roc_auc": 0.7746,
-    "pr_auc": 0.3689,
-    "f1": 0.2813,
-    "precision": 0.1844,
-    "recall": 0.5935,
-    "recall_at_80_precision": 0.0258,
-    "brier_score": 0.1637,
-    "expected_calibration_error": 0.35,
+    "roc_auc": 0.8154,
+    "pr_auc": 0.429,
+    "f1": 0.3627,
+    "precision": 0.2494,
+    "recall": 0.6645,
+    "recall_at_80_precision": 0.0,
+    "brier_score": 0.14,
+    "expected_calibration_error": 0.3588,
     "confusion_matrix": [
       [
-        1463,
-        407
+        1560,
+        310
       ],
       [
-        63,
-        92
+        52,
+        103
       ]
     ],
     "decision_threshold": 0.5
@@ -75,22 +75,22 @@
     "model_name": "Baseline_Default_LogReg",
     "n_samples": 2025,
     "positive_class_ratio": 0.0227,
-    "roc_auc": 0.9253,
-    "pr_auc": 0.3226,
-    "f1": 0.2456,
-    "precision": 0.1464,
-    "recall": 0.7609,
-    "recall_at_80_precision": 0.0435,
-    "brier_score": 0.0908,
-    "expected_calibration_error": 0.4029,
+    "roc_auc": 0.9495,
+    "pr_auc": 0.3612,
+    "f1": 0.3276,
+    "precision": 0.2043,
+    "recall": 0.8261,
+    "recall_at_80_precision": 0.0,
+    "brier_score": 0.0694,
+    "expected_calibration_error": 0.4085,
     "confusion_matrix": [
       [
-        1775,
-        204
+        1831,
+        148
       ],
       [
-        11,
-        35
+        8,
+        38
       ]
     ],
     "decision_threshold": 0.5
@@ -123,22 +123,22 @@
     "model_name": "Baseline_Prepayment_LogReg",
     "n_samples": 2025,
     "positive_class_ratio": 0.036,
-    "roc_auc": 0.5846,
-    "pr_auc": 0.0551,
-    "f1": 0.0373,
+    "roc_auc": 0.5772,
+    "pr_auc": 0.0427,
+    "f1": 0.0504,
     "precision": 0.0341,
-    "recall": 0.0411,
+    "recall": 0.0959,
     "recall_at_80_precision": 0.0,
-    "brier_score": 0.1395,
-    "expected_calibration_error": 0.2835,
+    "brier_score": 0.1449,
+    "expected_calibration_error": 0.3673,
     "confusion_matrix": [
       [
-        1867,
-        85
+        1754,
+        198
       ],
       [
-        70,
-        3
+        66,
+        7
       ]
     ],
     "decision_threshold": 0.5
@@ -260,95 +260,95 @@
   "next_state_baseline": {
     "model_name": "Baseline_NextState_LogReg",
     "n_samples": 2025,
-    "macro_f1": 0.3558,
-    "weighted_f1": 0.3511,
-    "macro_precision": 0.4395,
-    "macro_recall": 0.5036,
+    "macro_f1": 0.5364,
+    "weighted_f1": 0.7645,
+    "macro_precision": 0.5094,
+    "macro_recall": 0.6396,
     "class_breakdown": {
       "CURRENT": {
-        "f1": 0.3536,
-        "precision": 0.9549,
-        "recall": 0.217
+        "f1": 0.8091,
+        "precision": 0.9653,
+        "recall": 0.6965
       },
       "DELINQUENT_30": {
-        "f1": 0.0831,
-        "precision": 0.0495,
-        "recall": 0.2593
+        "f1": 0.0619,
+        "precision": 0.0348,
+        "recall": 0.2778
       },
       "DELINQUENT_60": {
-        "f1": 0.3562,
-        "precision": 0.3333,
-        "recall": 0.3824
+        "f1": 0.5263,
+        "precision": 0.4098,
+        "recall": 0.7353
       },
       "DELINQUENT_90": {
-        "f1": 0.4857,
-        "precision": 0.6296,
-        "recall": 0.3953
+        "f1": 0.5926,
+        "precision": 0.6316,
+        "recall": 0.5581
       },
       "DEFAULT": {
-        "f1": 0.7582,
-        "precision": 0.617,
-        "recall": 0.9831
+        "f1": 0.8252,
+        "precision": 0.7024,
+        "recall": 1.0
       },
       "PREPAID": {
-        "f1": 0.0983,
-        "precision": 0.0524,
-        "recall": 0.7848
+        "f1": 0.4036,
+        "precision": 0.3125,
+        "recall": 0.5696
       }
     },
     "confusion_matrix": [
       [
-        381,
-        261,
-        20,
-        3,
-        2,
-        1089,
-        0
-      ],
-      [
-        7,
-        14,
-        6,
-        0,
-        6,
+        1223,
+        408,
         21,
+        5,
+        0,
+        99,
         0
       ],
       [
-        1,
-        1,
-        13,
+        18,
+        15,
+        15,
+        0,
         6,
-        2,
-        11,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        25,
+        9,
+        0,
+        0,
         0
       ],
       [
         0,
         0,
         0,
-        17,
+        24,
+        19,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        59,
+        0,
+        0
+      ],
+      [
         26,
-        0,
-        0
-      ],
-      [
+        8,
         0,
         0,
         0,
-        1,
-        58,
-        0,
-        0
-      ],
-      [
-        10,
-        7,
-        0,
-        0,
-        0,
-        62,
+        45,
         0
       ],
       [

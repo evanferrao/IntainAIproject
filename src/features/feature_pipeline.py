@@ -126,12 +126,17 @@ class FeatureEngineeringPipeline(BaseEstimator, TransformerMixin):
         transformed_df = pd.DataFrame(index=df.index)
 
         if self.numeric_cols:
+            for col in self.numeric_cols:
+                if col not in df_feat.columns:
+                    df_feat[col] = np.nan
             imputed_nums = self.num_imputer.transform(df_feat[self.numeric_cols])
             for idx, col in enumerate(self.numeric_cols):
                 transformed_df[col] = imputed_nums[:, idx]
 
         # Categorical encodings
         for cat in self.categorical_cols:
+            if cat not in df_feat.columns:
+                df_feat[cat] = "missing"
             cat_map = self.cat_mappings.get(cat, {})
             encoded_col = f"{cat}_encoded"
             transformed_df[encoded_col] = df_feat[cat].map(cat_map).fillna(0).astype(int)

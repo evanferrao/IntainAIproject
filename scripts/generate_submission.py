@@ -51,7 +51,17 @@ def generate_submission():
     p_prep = prep_model.predict_proba(X_eval)
     pred_next_state = ns_model.predict(X_eval)
 
-    # 4. Anomaly Evaluation
+    # 4. Uncertainty & Confidence Assignment
+    uncertainty_est = ModelUncertaintyEstimator()
+    conf_df = uncertainty_est.assign_confidence(p_def)
+
+    # 5. Data Quality Scoring
+    from src.quality.quality_scorer import DataQualityScorer
+    quality_scorer = DataQualityScorer()
+    dq_records = quality_scorer.score_records(eval_df)
+    dq_scores = dq_records["record_quality_score"].to_numpy()
+
+    # 6. Anomaly Evaluation & Evidence-Driven Reviewer Triage
     rule_engine = DeterministicRuleEngine()
     static_evaluated = rule_engine.evaluate_static_records(eval_df)
     det_flags = static_evaluated["has_deterministic_violation"]
@@ -67,12 +77,14 @@ def generate_submission():
         eval_df,
         ml_scores=ml_scores,
         deterministic_flags=det_flags,
-        reconciliation_flags=recon_flags
+        reconciliation_flags=recon_flags,
+        default_probs=p_def,
+        delinquency_probs=p_delinq,
+        prepayment_probs=p_prep,
+        is_anomaly_flags=is_anomaly,
+        data_quality_scores=dq_scores,
+        confidences=conf_df["confidence"]
     )
-
-    # 5. Uncertainty & Confidence Assignment
-    uncertainty_est = ModelUncertaintyEstimator()
-    conf_df = uncertainty_est.assign_confidence(p_def)
 
     # 6. Assemble Submission DataFrame
     sub_df = pd.DataFrame({

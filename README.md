@@ -227,11 +227,89 @@ streamlit run app/dashboard.py
 3. **Data Quality & Drift Monitor**: Dataset quality scores, PSI, and Kolmogorov-Smirnov drift tables.
 4. **Predictive Models & Calibration**: ROC-AUC, PR-AUC, F1, Brier score, and Confusion Matrices.
 5. **Transition & Survival Modeling**: 1-month transition matrices and 36-month absorption curves.
-6. **Anomalies & Exception Dossiers**: Reviewer triage queue with severity ratings and recommendations.
+6. **Anomalies & Exception Dossiers**: Multi-class reviewer triage queue with evidence-driven dispositions.
 7. **Scenario Simulation**: Stress testing across `BASE`, `ADVERSE_CREDIT`, and `HIGH_PREPAYMENT`.
-8. **Explainability**: Global feature importance and interactive loan risk attribution inspector.
-9. **Grounded LLM Copilot**: Grounded loan review note generator, failure-mode benchmarks, and audit log viewer.
-10. **Model Card & Metadata**: System lineage, assumptions, and governance documentation.
+8. **Model Explainability**: Local & global SHAP, LIME local linear surrogates, Partial Dependence Plots (PDP), and Ceteris Paribus (ICE) profiles.
+9. **Counterfactual Analysis ("What Would Lower Risk?")**: Real model-driven search for sparse, feasible feature modifications that reduce predicted risk.
+10. **Grounded AI Reviewer Copilot**: Interactive Groq LLM chat grounded on actual loan evidence, failure-mode benchmarks, and session audit ledger.
+11. **Interactive New Loan Simulator**: On-the-fly model inference, quality scoring, anomaly checks, and SHAP attributions for user-entered loans.
+12. **Model Card & Governance**: System lineage, assumptions, and governance documentation.
+
+---
+
+## Groq LLM Integration & Grounding Architecture
+
+### Strict Architectural Separation
+There is a strict architectural boundary between the quantitative ML system and the conversational LLM:
+- **Groq is invoked ONLY** when the reviewer explicitly submits a natural-language query in the AI Reviewer Copilot interface.
+- Groq is **NEVER** called to generate predictions, calculate anomaly scores, compute SHAP/LIME, evaluate PDPs, or search for counterfactuals. All quantitative analytics run locally on the trained models.
+- If `GROQ_API_KEY` is not provided, the entire ML and explainability pipeline remains 100% operational; only live LLM chat displays an informational notice.
+
+### Configuration (`.env`)
+Create a `.env` file in the project root (see `.env.example`):
+```bash
+GROQ_API_KEY=gsk_your_groq_api_key_here
+GROQ_MODEL=llama-3.3-70b-versatile
+```
+
+### Grounding & Context Construction
+When a reviewer asks a question about a selected loan, the engine constructs a structured JSON evidence package containing:
+- **Loan Information**: Original balance, FICO, DTI, coupon rate, purpose, state, term.
+- **Model Outputs**: Calibrated default probability, delinquency probability, prepayment probability, next state, confidence rating.
+- **Anomaly Evidence**: Composite anomaly score, severity, top drivers, deterministic rule flags, servicer tape reconciliation flags.
+- **Explainability & Counterfactuals**: Top SHAP drivers, LIME rules, and candidate risk-reducing counterfactuals.
+- **Reviewer Triage**: Assigned disposition and deterministic reason bullets.
+
+The LLM receives this evidence alongside a strict system prompt prohibiting hallucinations and ungrounded claims.
+
+### Audit Governance Ledger
+Every interaction is appended to `artifacts/logs/copilot_audit_log.jsonl` with:
+- `timestamp`: UTC ISO-8601
+- `loan_id`: Evaluated loan identifier
+- `model`: Configured Groq model name
+- `user_question`: Question submitted by user
+- `context_hash`: Deterministic SHA-256 digest of the structured evidence package
+- `response`: Text returned by Groq
+- `latency`: Response time in seconds
+- `success`: Boolean success indicator
+- `error`: Error description if call failed
+- **Security**: API keys and secrets are never logged.
+
+---
+
+## Reviewer Disposition Policy Engine
+
+Reviewer dispositions are deterministically computed by `ReviewerPolicyEngine` (`src/anomaly/reviewer_policy.py`) based on documented thresholds in `src/config/reviewer_policy.py`:
+- `AUTO_APPROVE`: Clean data profile, low predicted default risk (<1.0%), no material anomalies or tape conflicts.
+- `FLAG_FOR_REVIEW`: Moderate predicted risk (1.0%–5.0%), multivariate statistical anomaly (Isolation Forest flag or score ≥ 45.0), low model confidence, or moderate data quality score (70–85).
+- `RECONCILE_SOURCE_CONFLICT`: Source reconciliation conflict detected against servicer update tape.
+- `MANUAL_AUDIT_REQUIRED`: Deterministic validation rule violation (e.g. invalid balance, rate > 40%) or severe data quality deficiency (< 70).
+- `HIGH_RISK_REVIEW`: High predicted default probability (≥ 5.0%) or high delinquency hazard (≥ 2.0%).
+
+Every loan disposition includes documented, factual reason bullets citing exact computed metrics.
+
+---
+
+## Model Explainability & Counterfactual Analysis
+
+1. **SHAP (SHapley Additive exPlanations)**:
+   - Uses `shap.TreeExplainer` on the underlying LightGBM models (`default`, `delinquency`, `prepayment`).
+   - Computes local waterfall/bar risk attributions and global mean |SHAP| values.
+2. **LIME (Local Interpretable Model-agnostic Explanations)**:
+   - Uses `lime.lime_tabular.LimeTabularExplainer` against the model's calibrated `predict_proba`.
+   - Explains individual predictions via local linear surrogates with condition rules and weights.
+3. **Partial Dependence Plots (PDP)**:
+   - Evaluates marginal feature effect using `sklearn.inspection.partial_dependence` directly from fitted models.
+   - Supports continuous features: `credit_score`, `dti`, `interest_rate`, `installment`, `revolving_utilization`, `annual_income`.
+4. **Ceteris Paribus / ICE Profiles**:
+   - Evaluates model response curves by varying a single feature across a valid domain while holding all other features fixed.
+   - Mandatory notice: *"Model response under controlled feature variation — not a causal estimate."*
+5. **Model-Driven Counterfactual Search**:
+   - Real optimization search (`CounterfactualSearchEngine`) over mutable features (`credit_score`, `dti`, `interest_rate`, `revolving_utilization`, `annual_income`).
+   - Strictly preserves immutable features (`loan_id`, `origination_month`, historical status, etc.).
+   - Evaluates actual model `predict_proba` for candidate perturbations.
+   - Ranks candidates preferring sparsity (1 feature changed before 2), then risk reduction.
+   - Mandatory disclaimer: *"Counterfactuals represent model-implied changes that reduce predicted risk under controlled feature modifications. They are not causal estimates and do not guarantee approval."*
 
 ---
 
@@ -252,4 +330,6 @@ python -m pytest tests/ -v --cov=src --cov-report=term-missing
 2. **Derived Temporal Panel**: The monthly performance panel is derived from static characteristics and empirical transition hazards to enable temporal modeling. It is explicitly labeled as prototype data.
 3. **Derived Secondary Updates**: Servicer updates and conflict tapes are derived to demonstrate multi-source reconciliation.
 4. **Scenario Projections**: Scenario simulation outputs represent model-based sensitivity stress projections, not guaranteed causal macroeconomic forecasts.
-5. **Human Review Requirement**: All AI Copilot recommendations carry the mandatory label: **"Recommendation — requires human review"**.
+5. **Counterfactual Non-Causality**: Counterfactual explanations evaluate model response under controlled perturbations and do not constitute causal underwriting guarantees.
+6. **Human Review Requirement**: All AI Copilot recommendations carry the mandatory label: **"Recommendation — requires human review"**.
+

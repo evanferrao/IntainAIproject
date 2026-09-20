@@ -47,3 +47,20 @@ def test_copilot_evaluation_benchmarks():
     assert any("Vague" in c for c in categories)
     assert any("Unsupported" in c for c in categories)
     assert any("Overconfident" in c for c in categories)
+
+
+def test_clean_html_markup_strips_tags_and_formats_tables():
+    from src.copilot.grounded_copilot import clean_html_markup
+    raw = (
+        "Why was Loan LC_1001553 flagged?\n\n"
+        "| Source | Evidence |\n"
+        "|---|---|\n"
+        "| Model | default: 0.10 <br> delinquency: 0.02 |\n\n"
+        "Summary with <b>bold text</b> and <br> outside table."
+    )
+    cleaned = clean_html_markup(raw)
+    assert "<b>" not in cleaned
+    assert "</b>" not in cleaned
+    assert "**bold text**" in cleaned
+    assert "<br/>" in cleaned
+

@@ -92,15 +92,33 @@ def run_full_pipeline():
     recon_df = recon_engine.reconcile(merged_eval, servicer_df)
     ml_scores, is_anomaly = iso_model.score_samples(X_eval)
 
+    def_model = load_model(MODELS_DIR / "default_model.joblib")
+    delinq_model = load_model(MODELS_DIR / "delinquency_model.joblib")
+    prep_model = load_model(MODELS_DIR / "prepayment_model.joblib")
+    p_def = def_model.predict_proba(X_eval)
+    p_delinq = delinq_model.predict_proba(X_eval)
+    p_prep = prep_model.predict_proba(X_eval)
+
+    from src.explainability.uncertainty import ModelUncertaintyEstimator
+    conf_df = ModelUncertaintyEstimator().assign_confidence(p_def)
+    from src.quality.quality_scorer import DataQualityScorer
+    dq_scores = DataQualityScorer().score_records(merged_eval)["record_quality_score"].to_numpy()
+
     comp_scorer = CompositeAnomalyScorer()
     scored_anomalies = comp_scorer.score(
         merged_eval,
         ml_scores=ml_scores,
         deterministic_flags=static_rules["has_deterministic_violation"],
-        reconciliation_flags=recon_df["has_reconciliation_conflict"]
+        reconciliation_flags=recon_df["has_reconciliation_conflict"],
+        default_probs=p_def,
+        delinquency_probs=p_delinq,
+        prepayment_probs=p_prep,
+        is_anomaly_flags=is_anomaly,
+        data_quality_scores=dq_scores,
+        confidences=conf_df["confidence"]
     )
     
-    dossiers = comp_scorer.get_reviewer_dossiers(scored_anomalies, n_samples=30)
+    dossiers = comp_scorer.get_reviewer_dossiers(scored_anomalies, n_samples=35)
     dossiers_out = PREDICTIONS_DIR / "reviewer_exception_dossiers.csv"
     dossiers.to_csv(dossiers_out, index=False)
     logger.info(f"Saved {len(dossiers)} reviewer exception dossiers to {dossiers_out}")

@@ -4,6 +4,8 @@ from typing import Dict, Any, List, Optional
 import numpy as np
 import pandas as pd
 
+from src.config.reviewer_policy import ReviewerPolicyConfig, DEFAULT_REVIEWER_POLICY_CONFIG
+from src.anomaly.reviewer_policy import ReviewerPolicyEngine
 from src.utils.logger import logger
 
 
@@ -16,12 +18,14 @@ class CompositeAnomalyScorer:
         weight_deterministic: float = 0.40,
         weight_ml: float = 0.30,
         weight_reconciliation: float = 0.20,
-        weight_outlier: float = 0.10
+        weight_outlier: float = 0.10,
+        policy_config: Optional[ReviewerPolicyConfig] = None
     ):
         self.w_det = weight_deterministic
         self.w_ml = weight_ml
         self.w_rec = weight_reconciliation
         self.w_out = weight_outlier
+        self.policy_engine = ReviewerPolicyEngine(config=policy_config)
 
     def score(
         self,
@@ -29,9 +33,17 @@ class CompositeAnomalyScorer:
         ml_scores: Optional[np.ndarray] = None,
         deterministic_flags: Optional[pd.Series] = None,
         reconciliation_flags: Optional[pd.Series] = None,
-        z_outlier_flags: Optional[pd.Series] = None
+        z_outlier_flags: Optional[pd.Series] = None,
+        default_probs: Optional[np.ndarray] = None,
+        delinquency_probs: Optional[np.ndarray] = None,
+        prepayment_probs: Optional[np.ndarray] = None,
+        is_anomaly_flags: Optional[np.ndarray] = None,
+        data_quality_scores: Optional[np.ndarray] = None,
+        confidences: Optional[pd.Series] = None,
+        deterministic_details: Optional[List[List[str]]] = None,
+        reconciliation_details: Optional[List[List[str]]] = None
     ) -> pd.DataFrame:
-        """Calculates normalized composite anomaly scores and assigns reviewer triage actions."""
+        """Calculates normalized composite anomaly scores and assigns evidence-driven reviewer triage actions."""
         scored_df = df.copy()
         n = len(scored_df)
 
@@ -65,8 +77,29 @@ class CompositeAnomalyScorer:
             labels=["LOW", "MEDIUM", "HIGH", "CRITICAL"]
         ).astype(str)
 
-        # Generate Actionable Reviewer Recommendations and Top Drivers
-        actions = []
+        # Use ReviewerPolicyEngine for evidence-driven disposition assignment
+        p_def = default_probs if default_probs is not None else np.zeros(n)
+        p_del = delinquency_probs if delinquency_probs is not None else np.zeros(n)
+        p_prep = prepayment_probs if prepayment_probs is not None else np.zeros(n)
+        is_ano = is_anomaly_flags if is_anomaly_flags is not None else (ml_score >= self.policy_engine.config.anomaly_score_flag_threshold)
+        dq_scores = data_quality_scores if data_quality_scores is not None else np.full(n, 95.0)
+
+        triage_df = self.policy_engine.evaluate_batch(
+            df=scored_df,
+            default_probs=p_def,
+            delinquency_probs=p_del,
+            prepayment_probs=p_prep,
+            anomaly_scores=composite_score,
+            is_anomaly_flags=is_ano,
+            data_quality_scores=dq_scores,
+            deterministic_flags=deterministic_flags,
+            deterministic_details=deterministic_details,
+            reconciliation_flags=reconciliation_flags,
+            reconciliation_details=reconciliation_details,
+            confidences=confidences
+        )
+
+        # Classify exception types and drivers
         top_drivers = []
         exception_types = []
         exception_probs = []
@@ -75,13 +108,16 @@ class CompositeAnomalyScorer:
             score_val = composite_score[idx]
             is_det = det_score[idx] > 0
             is_rec = rec_score[idx] > 0
-            is_ml = ml_score[idx] >= 65.0
-            
+            is_ml = bool(is_ano[idx]) or ml_score[idx] >= self.policy_engine.config.anomaly_score_flag_threshold
+            is_high_risk = float(p_def[idx]) >= self.policy_engine.config.high_risk_default_threshold
+
             drivers = []
             if is_det:
                 drivers.append("deterministic_rule_violation")
             if is_rec:
                 drivers.append("source_reconciliation_conflict")
+            if is_high_risk:
+                drivers.append("elevated_default_hazard")
             if is_ml:
                 drivers.append("multivariate_statistical_outlier")
             if not drivers:
@@ -92,38 +128,43 @@ class CompositeAnomalyScorer:
             # Exception classification
             if is_rec and is_det:
                 etype = "RULE_AND_RECON_CONFLICT"
-                action = "MANUAL_AUDIT_REQUIRED"
             elif is_rec:
                 etype = "SOURCE_RECONCILIATION_CONFLICT"
-                action = "RECONCILE_SOURCE_CONFLICT"
             elif is_det:
                 etype = "BUSINESS_RULE_VIOLATION"
-                action = "MANUAL_AUDIT_REQUIRED"
+            elif is_high_risk:
+                etype = "HIGH_CREDIT_RISK"
             elif is_ml:
                 etype = "STATISTICAL_ANOMALY"
-                action = "FLAG_FOR_REVIEW"
             else:
                 etype = "NONE"
-                action = "AUTO_APPROVE"
 
             exception_types.append(etype)
-            actions.append(action)
             exception_probs.append(round(score_val / 100.0, 4))
 
         scored_df["exception_type"] = exception_types
         scored_df["exception_probability"] = exception_probs
         scored_df["top_drivers"] = top_drivers
-        scored_df["reviewer_action"] = actions
+        scored_df["reviewer_action"] = triage_df["reviewer_action"]
+        scored_df["reviewer_reasons"] = triage_df["reviewer_reasons"]
+        scored_df["reviewer_primary_trigger"] = triage_df["reviewer_primary_trigger"]
 
-        logger.info(f"Composite anomaly scoring completed. Severity breakdown:\n{scored_df['anomaly_severity'].value_counts().to_dict()}")
+        logger.info(f"Composite anomaly scoring completed. Reviewer action breakdown:\n{scored_df['reviewer_action'].value_counts().to_dict()}")
         return scored_df
 
-    def get_reviewer_dossiers(self, scored_df: pd.DataFrame, n_samples: int = 25) -> pd.DataFrame:
+    def get_reviewer_dossiers(self, scored_df: pd.DataFrame, n_samples: int = 35) -> pd.DataFrame:
         """Extracts priority flagged exception dossiers for human loan reviewer audit."""
-        flagged = scored_df[scored_df["anomaly_severity"].isin(["CRITICAL", "HIGH", "MEDIUM"])].copy()
+        # Include non-AUTO_APPROVE loans, or HIGH/CRITICAL anomaly severity
+        flagged = scored_df[
+            (scored_df["reviewer_action"] != "AUTO_APPROVE") |
+            (scored_df["anomaly_severity"].isin(["CRITICAL", "HIGH"]))
+        ].copy()
         if len(flagged) == 0:
             return scored_df.head(n_samples)
         
-        # Sort by anomaly score descending
-        flagged = flagged.sort_values("anomaly_score", ascending=False)
+        # Sort by anomaly score descending, then default_probability if available
+        sort_cols = ["anomaly_score"]
+        if "default_probability" in flagged.columns:
+            sort_cols.append("default_probability")
+        flagged = flagged.sort_values(sort_cols, ascending=False)
         return flagged.head(n_samples).reset_index(drop=True)

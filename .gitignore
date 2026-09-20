@@ -53,3 +53,7 @@ data/external/lending_club/*.gz
 
 # Artifacts caches
 artifacts/logs/*.log
+
+# other files
+*.html
+*.txt
