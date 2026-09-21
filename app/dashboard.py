@@ -803,34 +803,66 @@ def main():
             else:
                 st.warning("Decision Support Engine: Key not configured in `.env`. Automated synthesis is paused; deterministic policies and ML risk models remain active.")
 
+            def _set_suggested_query(q_text: str):
+                st.session_state["reviewer_user_query_input"] = q_text
+                st.session_state["trigger_reviewer_synthesis"] = True
+
             # Suggested prompt buttons
             st.markdown("###### Suggested Reviewer Questions:")
             suggested_cols = st.columns(3)
-            prompt_clicked = None
             with suggested_cols[0]:
-                if st.button("Why was this loan flagged?", key="q1"):
-                    prompt_clicked = "Why was this loan assigned its reviewer disposition, and what specific evidence triggered it?"
-                if st.button("What drives default risk?", key="q2"):
-                    prompt_clicked = "What are the strongest drivers of default risk for this loan?"
+                st.button(
+                    "Why was this loan flagged?",
+                    key="q1",
+                    on_click=_set_suggested_query,
+                    args=("Why was this loan assigned its reviewer disposition, and what specific evidence triggered it?",)
+                )
+                st.button(
+                    "What drives default risk?",
+                    key="q2",
+                    on_click=_set_suggested_query,
+                    args=("What are the strongest drivers of default risk for this loan?",)
+                )
             with suggested_cols[1]:
-                if st.button("Explain anomaly findings", key="q3"):
-                    prompt_clicked = "Explain the anomaly findings and reconciliation status for this loan in plain English."
-                if st.button("What to verify in audit?", key="q4"):
-                    prompt_clicked = "What specific borrower documents or data attributes should a human auditor verify?"
+                st.button(
+                    "Explain anomaly findings",
+                    key="q3",
+                    on_click=_set_suggested_query,
+                    args=("Explain the anomaly findings and reconciliation status for this loan in plain English.",)
+                )
+                st.button(
+                    "What to verify in audit?",
+                    key="q4",
+                    on_click=_set_suggested_query,
+                    args=("What specific borrower documents or data attributes should a human auditor verify?",)
+                )
             with suggested_cols[2]:
-                if st.button("Summarize for reviewer", key="q5"):
-                    prompt_clicked = "Summarize this loan's risk profile, model predictions, and audit recommendation for a human reviewer."
-                if st.button("Compare with portfolio", key="q6"):
-                    prompt_clicked = "How does this loan's risk and credit score compare with the broader portfolio?"
+                st.button(
+                    "Summarize for reviewer",
+                    key="q5",
+                    on_click=_set_suggested_query,
+                    args=("Summarize this loan's risk profile, model predictions, and audit recommendation for a human reviewer.",)
+                )
+                st.button(
+                    "Compare with portfolio",
+                    key="q6",
+                    on_click=_set_suggested_query,
+                    args=("How does this loan's risk and credit score compare with the broader portfolio?",)
+                )
+
+            if "reviewer_user_query_input" not in st.session_state:
+                st.session_state["reviewer_user_query_input"] = ""
 
             user_question = st.text_area(
                 "Enter question about this loan's analytical evidence:",
-                value=prompt_clicked if prompt_clicked else "",
                 placeholder="Ask any question about this loan's computed metrics, anomaly status, or risk profile...",
                 key="reviewer_user_query_input"
             )
 
-            if st.button("Generate Reviewer Synthesis", type="primary"):
+            btn_clicked = st.button("Generate Reviewer Synthesis", type="primary")
+            auto_trigger = st.session_state.pop("trigger_reviewer_synthesis", False)
+
+            if btn_clicked or auto_trigger:
                 if not user_question.strip():
                     st.warning("Please enter a question or click a suggested prompt above.")
                 else:
