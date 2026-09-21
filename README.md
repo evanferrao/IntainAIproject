@@ -1,5 +1,7 @@
 # Loan Performance Intelligence Engine
 
+new demo for credit report chat at https://dossara.evanferrao.com/
+
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
 [![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)]()
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)]()
